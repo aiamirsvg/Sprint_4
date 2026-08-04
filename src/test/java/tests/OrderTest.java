@@ -17,18 +17,21 @@ public class OrderTest extends BaseTest {
     private final String address;
     private final String metro;
     private final String phone;
+    private final boolean isTopButton;
 
     public OrderTest(String name,
                      String surname,
                      String address,
                      String metro,
-                     String phone) {
+                     String phone,
+                     boolean isTopButton) {
 
         this.name = name;
         this.surname = surname;
         this.address = address;
         this.metro = metro;
         this.phone = phone;
+        this.isTopButton = isTopButton;
     }
 
     @Parameterized.Parameters
@@ -39,14 +42,16 @@ public class OrderTest extends BaseTest {
                         "Амирханова",
                         "Астана",
                         "Преображенская площадь",
-                        "87771234567"
+                        "87771234567",
+                        true
                 },
                 {
                         "Иван",
                         "Иванов",
                         "Москва",
                         "Черкизовская",
-                        "89991234567"
+                        "89991234567",
+                        false
                 }
         };
     }
@@ -60,8 +65,12 @@ public class OrderTest extends BaseTest {
         // принять cookies
         homePage.acceptCookies();
 
-        // нажать верхнюю кнопку "Заказать"
-        homePage.clickTopOrderButton();;
+        // нажать нужную кнопку "Заказать"
+        if (isTopButton) {
+            homePage.clickTopOrderButton();
+        } else {
+            homePage.clickBottomOrderButton();
+        }
 
         // заполнить первую страницу
         orderPage.fillFirstPage(

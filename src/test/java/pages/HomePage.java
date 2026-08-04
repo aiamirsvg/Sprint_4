@@ -2,8 +2,13 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 
 public class HomePage {
+
+    public static final String HOME_PAGE_URL =
+            "https://qa-scooter.praktikum-services.ru/";
 
     private WebDriver driver;
 
@@ -17,12 +22,12 @@ public class HomePage {
     private By cookieButton = By.id("rcc-confirm-button");
 
     // Верхняя кнопка "Заказать"
-    private By topOrderButton = By.xpath(".//button[text()='Заказать']");
+    private final By topOrderButton =
+            By.xpath("//div[@class='Header_Nav__AGCXC']/button[text()='Заказать']");
 
     // Нижняя кнопка "Заказать"
-    private By bottomOrderButton =
-            By.xpath(".//div[contains(@class,'Home_FinishButton')]//button");
-
+    private final By bottomOrderButton =
+            By.xpath("//div[@class='Order_Buttons__1xGrp']/button[text()='Заказать']");
     // ================= МЕТОДЫ =================
 
     // Принять cookies
@@ -35,8 +40,10 @@ public class HomePage {
         driver.findElement(topOrderButton).click();
     }
 
-    // Нажать нижнюю кнопку "Заказать"
     public void clickBottomOrderButton() {
-        driver.findElement(bottomOrderButton).click();
+        WebElement button = driver.findElement(bottomOrderButton);
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].scrollIntoView();", button);
+        button.click();
     }
 }

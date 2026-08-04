@@ -5,6 +5,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import pages.HomePage;
+
+import java.time.Duration;
 
 public class BaseTest {
 
@@ -13,16 +16,19 @@ public class BaseTest {
     @Before
     public void setUp() {
         WebDriverManager.chromedriver().setup();
+
         driver = new ChromeDriver();
 
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(HomePage.HOME_PAGE_URL);
     }
 
     @After
-    public void tearDown() throws InterruptedException {
-        Thread.sleep(10000); // ждать 10 секунд
-        driver.quit();
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
